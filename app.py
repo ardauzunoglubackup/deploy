@@ -170,6 +170,21 @@ def generate_text_page_post():
 
     return redirect(url_for("particular_archive_element", id=new_archive.id))
 
+@app.route("/panel")
+def panel():
+    return render_template("panel.html")
+
+@app.route("/panel", methods=["POST"])
+def panel_delete():
+    id = request.form["id"]
+    password = request.form["password"]
+
+    if password == "ardaege":
+        Archive.query.filter_by(id=id).delete()
+        db.session.commit()
+
+    return render_template("panel.html")
+
 if __name__ == "__main__":
     db.create_all()
     app.run(host="0.0.0.0")
